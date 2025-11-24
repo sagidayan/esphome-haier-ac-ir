@@ -9,13 +9,14 @@ AUTO_LOAD = ["climate"]
 haier_acyrw02_ns = cg.esphome_ns.namespace("haier_acyrw02")
 HaierClimate = haier_acyrw02_ns.class_("HaierClimate", climate.Climate)
 
-CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend(
+CONFIG_SCHEMA = climate._CLIMATE_SCHEMA.extend(
     {
         cv.GenerateID(): cv.declare_id(HaierClimate),
         cv.Required(CONF_SENSOR_ID): cv.use_id(sensor.Sensor),
-        cv.Required(CONF_PIN): cv.int_
+        cv.Required(CONF_PIN): cv.int_,
     }
 )
+
 
 async def to_code(config):
     if CORE.is_esp8266 or CORE.is_esp32:
@@ -23,6 +24,6 @@ async def to_code(config):
 
     var = cg.new_Pvariable(config[CONF_ID])
     await climate.register_climate(var, config)
-    
+
     sens = await cg.get_variable(config[CONF_SENSOR_ID])
     cg.add(var.init(sens, config[CONF_PIN]))
