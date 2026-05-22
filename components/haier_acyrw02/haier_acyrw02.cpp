@@ -96,7 +96,7 @@ climate::ClimateTraits HaierClimate::traits() {
   traits.set_visual_max_temperature(HAIER_ACYRW02_TEMP_MAX);
   traits.set_visual_min_temperature(HAIER_ACYRW02_TEMP_MIN);
   traits.set_visual_temperature_step(1);
-  traits.set_supports_current_temperature(true);
+  traits.add_feature_flags(climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE);
 
   return traits;
 }
